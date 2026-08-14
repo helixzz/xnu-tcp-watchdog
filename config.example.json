@@ -1,0 +1,16 @@
+{
+  "preempt_margin_seconds": 3600,
+  "time_wait_emergency": 8000,
+  "syn_sent_emergency": 1000,
+  "resource_check_window_seconds": 90000,
+  "reboot_delay_minutes": 1,
+  "reboot_enabled": false,
+  "telegram": {
+    "bot_token": "",
+    "chat_ids": []
+  },
+  "feishu": {
+    "webhook_urls": []
+  },
+  "notification_command": []
+}
