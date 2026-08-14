@@ -1,5 +1,7 @@
 # XNU TCP Watchdog
 
+**English** | [简体中文](README.zh-CN.md) | [日本語](README.ja.md) | [Français](README.fr.md) | [Español](README.es.md) | [한국어](README.ko.md)
+
 A small macOS LaunchDaemon that works around a reported XNU TCP clock rollover
 failure on long-lived Macs. It warns before the `2^32`-millisecond boundary and
 can schedule a preventive reboot before TCP timers stop advancing.
