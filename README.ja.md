@@ -11,6 +11,13 @@
 > Mac を自動的に再起動できます。`reboot_enabled` を有効にする前に、コードを
 > 確認し、通知をテストしてください。
 
+> [!IMPORTANT]
+> インストール前に[対応バージョンと確認手順（英語）](README.md#do-i-need-this-tool)を確認してください。
+> macOS 26.0–26.3 の公開ソースにはこの不具合があり、26.4 と 26.5 の公開ソースでは修正済みです。
+> macOS 27 は修正を引き継ぐと予想されますが、独立した検証はまだありません。
+> 本ツールは修正済み OS を自動判定しません。修正済みカーネルへの更新後はアンインストールするか、
+> `reboot_enabled` を `false` にしてください。
+
 ## 背景
 
 一部の XNU バージョンでは、TCP タイムスタンプクロックが 32 ビットのミリ秒
@@ -21,10 +28,10 @@
 
 - [詳細な再現とソース解析](https://blog.forevers.love/blog/xnu-tcp-timestamp-overflow-49-day-bug/)
 - [49.7 日目の独立検証](https://zenn.dev/inazumimakoto/articles/mac-tcp-report)
-- [Apple が公開している `calculate_tcp_clock()` の実装](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/netinet/tcp_subr.c#L3510-L3544)
+- [Apple の修正済み実装：XNU 12377.101.15](https://github.com/apple-oss-distributions/xnu/blob/xnu-12377.101.15/bsd/netinet/tcp_subr.c#L3906)
 
-Apple は将来の macOS で実装を変更する可能性があります。この回避策が現在も必要か、
-インストール済み OS と最新の XNU ソースを確認してください。
+`sw_vers` と `uname -v` で OS と実行中のカーネルを確認し、上記の対応表と照合してください。
+ソースでの確認と実機での長期検証は異なります。古い `main` ではなく、対応するリリースタグを参照してください。
 
 ## 動作
 

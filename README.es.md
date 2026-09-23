@@ -12,6 +12,13 @@ temporizadores TCP dejen de avanzar.
 > Puede reiniciar un Mac automáticamente. Revisa el código y prueba las notificaciones
 > antes de activar `reboot_enabled`.
 
+> [!IMPORTANT]
+> Antes de instalar, consulta las [versiones y comprobaciones (en inglés)](README.md#do-i-need-this-tool).
+> El código publicado de macOS 26.0–26.3 contiene este defecto; el de 26.4 y 26.5 ya lo corrige.
+> Se espera que macOS 27 herede la corrección, pero aquí no se ha verificado de forma independiente.
+> La herramienta no detecta los sistemas corregidos. Tras actualizar a un kernel corregido,
+> desinstálala o establece `reboot_enabled` en `false`.
+
 ## Por qué existe
 
 Algunas versiones de XNU mantienen el reloj de marcas de tiempo TCP en un contador
@@ -23,11 +30,12 @@ puertos TCP efímeros.
 
 - [Reproducción detallada y análisis del código](https://blog.forevers.love/blog/xnu-tcp-timestamp-overflow-49-day-bug/)
 - [Observación independiente a los 49,7 días](https://zenn.dev/inazumimakoto/articles/mac-tcp-report)
-- [Implementación pública de `calculate_tcp_clock()` de Apple](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/netinet/tcp_subr.c#L3510-L3544)
+- [Implementación corregida de Apple: XNU 12377.101.15](https://github.com/apple-oss-distributions/xnu/blob/xnu-12377.101.15/bsd/netinet/tcp_subr.c#L3906)
 
-Apple podría cambiar la implementación en futuras versiones de macOS. Comprueba
-tu versión instalada y el código XNU actual antes de asumir que la mitigación sigue
-siendo necesaria.
+Usa `sw_vers` y `uname -v` para comparar tu sistema y el kernel en ejecución con
+la tabla enlazada. Verificar el código fuente no equivale a una prueba prolongada
+en hardware real. Consulta la etiqueta de versión correspondiente, no la antigua
+rama `main`.
 
 ## Funcionamiento
 
