@@ -12,6 +12,13 @@ avant que les temporisateurs TCP ne cessent d'avancer.
 > redémarrer automatiquement un Mac. Examinez le code et testez les notifications
 > avant d'activer `reboot_enabled`.
 
+> [!IMPORTANT]
+> Avant l'installation, consultez les [versions et vérifications (en anglais)](README.md#do-i-need-this-tool).
+> Les sources publiées de macOS 26.0–26.3 contiennent ce défaut ; celles de 26.4 et 26.5 le corrigent.
+> macOS 27 devrait hériter du correctif, mais n'a pas été vérifié indépendamment ici.
+> Cet outil ne détecte pas les OS corrigés. Après une mise à jour vers un noyau corrigé,
+> désinstallez-le ou définissez `reboot_enabled` sur `false`.
+
 ## Pourquoi ce projet existe
 
 Certaines versions de XNU conservent l'horloge d'horodatage TCP dans un compteur
@@ -23,11 +30,12 @@ peut alors figer `tcp_now`, empêcher le nettoyage de TIME_WAIT et finir par
 
 - [Reproduction détaillée et analyse du code](https://blog.forevers.love/blog/xnu-tcp-timestamp-overflow-49-day-bug/)
 - [Observation indépendante au bout de 49,7 jours](https://zenn.dev/inazumimakoto/articles/mac-tcp-report)
-- [Implémentation publique de `calculate_tcp_clock()` par Apple](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/netinet/tcp_subr.c#L3510-L3544)
+- [Implémentation corrigée par Apple : XNU 12377.101.15](https://github.com/apple-oss-distributions/xnu/blob/xnu-12377.101.15/bsd/netinet/tcp_subr.c#L3906)
 
-Apple peut modifier cette implémentation dans de futures versions de macOS.
-Vérifiez votre système et le code XNU actuel avant de conclure que ce
-contournement est toujours nécessaire.
+Utilisez `sw_vers` et `uname -v` pour comparer votre système et le noyau en cours
+d'exécution au tableau ci-dessus. Une vérification du code source n'est pas un
+test prolongé sur machine réelle. Consultez le tag de version correspondant,
+et non l'ancienne branche `main`.
 
 ## Fonctionnement
 

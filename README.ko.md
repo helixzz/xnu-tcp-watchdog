@@ -10,6 +10,13 @@ macOS LaunchDaemon입니다. `2^32`밀리초 경계 전에 경고하고, TCP 타
 > 이 프로젝트는 커널 수정이 아닌 운영상의 우회책입니다. Mac을 자동으로 재시작할
 > 수 있으므로 `reboot_enabled`를 활성화하기 전에 코드를 검토하고 알림을 테스트하세요.
 
+> [!IMPORTANT]
+> 설치 전에 [버전별 상태와 확인 방법(영문)](README.md#do-i-need-this-tool)을 확인하세요.
+> macOS 26.0–26.3의 공개 소스에는 이 결함이 있으며, 26.4와 26.5의 공개 소스에서는 수정되었습니다.
+> macOS 27도 수정을 이어받을 것으로 예상되지만, 여기서는 독립적으로 검증하지 않았습니다.
+> 이 도구는 수정된 OS를 자동으로 감지하지 않습니다. 수정된 커널로 업데이트한 뒤에는
+> 도구를 제거하거나 `reboot_enabled`를 `false`로 설정하세요.
+
 ## 이 프로젝트가 필요한 이유
 
 일부 XNU 버전은 TCP 타임스탬프 시계를 32비트 밀리초 카운터로 유지합니다. 연속
@@ -19,10 +26,10 @@ macOS LaunchDaemon입니다. `2^32`밀리초 경계 전에 경고하고, TCP 타
 
 - [상세 재현 및 소스 분석](https://blog.forevers.love/blog/xnu-tcp-timestamp-overflow-49-day-bug/)
 - [49.7일 시점의 독립 관측](https://zenn.dev/inazumimakoto/articles/mac-tcp-report)
-- [Apple의 공개 `calculate_tcp_clock()` 구현](https://github.com/apple-oss-distributions/xnu/blob/main/bsd/netinet/tcp_subr.c#L3510-L3544)
+- [Apple의 수정된 구현: XNU 12377.101.15](https://github.com/apple-oss-distributions/xnu/blob/xnu-12377.101.15/bsd/netinet/tcp_subr.c#L3906)
 
-Apple은 향후 macOS에서 구현을 변경할 수 있습니다. 이 우회책이 여전히 필요한지
-설치된 OS 버전과 최신 XNU 소스를 확인하세요.
+`sw_vers`와 `uname -v`로 OS와 실행 중인 커널을 확인한 뒤 위 링크의 표와 비교하세요.
+소스 확인은 실제 기기의 장기 실행 검증과 다릅니다. 오래된 `main` 대신 해당 릴리스 태그를 확인하세요.
 
 ## 동작 방식
 
